@@ -510,3 +510,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Others
+*.exe
+*.bin
+*.cue

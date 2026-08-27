@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 import dearpygui.dearpygui as dpg
 import crossfiledialog as cfd
 
@@ -17,18 +18,20 @@ def file_dialog(filetype):
     path = '[Not Selected]'
 
     if filetype == 0:
-        selected = cfd.open_file(
+        result = cfd.open_file(
             title='Select ".bin" file',
-            filter = {'".bin" file': '*.bin'}
+            start_dir=os.getcwd(),
+            filter={'".bin" file': '*.bin'}
         )
     else:
-        selected = cfd.open_file(
+        result = cfd.open_file(
             title='Select ".cue" file',
-            filter = {'".cue" file': '*.cue'}
+            start_dir=os.getcwd(),
+            filter={'".cue" file': '*.cue'}
         )
 
-    if selected:
-        path = selected
+    if result:
+        path = result
 
     return path
 
@@ -39,13 +42,14 @@ def run_bchunk():
         return
 
     dpg.set_value('progress_label', 'Converting. . .')
-    out_prefix = bin_path[:-4]
+    out_prefix = os.path.splitext(os.path.basename(cue_path))[0]
+    print(out_prefix)
 
     result = None
     try:
-        result = subprocess.run(['bchunk.exe', bin_path, cue_path, out_prefix], capture_output=True, text=True)
+        result = subprocess.run(f'bchunk.exe "{bin_path}" "{cue_path}" "{out_prefix}"')
         if result.returncode == 0:
-            dpg.set_value('progress_value', 'Success!')
+            dpg.set_value('progress_label', 'Success!')
         else:
             dpg.set_value('progress_label', f'Failure (code {result.returncode})')
     except Exception as error:
@@ -75,7 +79,7 @@ with dpg.window(tag='primary'):
     dpg.add_text('cue: [Not Selected]', tag='cue_label')
 
     dpg.add_button(label='Convert to ".iso" file', callback=run_bchunk)
-    dpg.add_text('', tag='progress_lable')
+    dpg.add_text('', tag='progress_label')
 
 
 dpg.create_viewport(title='bChunk GUI', width=450, height=350)
