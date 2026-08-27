@@ -43,11 +43,19 @@ def run_bchunk():
 
     dpg.set_value('progress_label', 'Converting. . .')
     out_prefix = os.path.splitext(os.path.basename(cue_path))[0]
-    print(out_prefix)
+
+    cmd = None
+    exe = ''
+    if sys.platform == 'win32':
+        exe = 'bchunk.exe'
+        cmd = f'{exe} "{bin_path}" "{cue_path}" "{out_prefix}"'
+    else:
+        exe = 'bchunk'
+        cmd = [exe, bin_path, cue_path, out_prefix]
 
     result = None
     try:
-        result = subprocess.run(f'bchunk.exe "{bin_path}" "{cue_path}" "{out_prefix}"')
+        result = subprocess.run(cmd)
         if result.returncode == 0:
             dpg.set_value('progress_label', 'Success!')
         else:
