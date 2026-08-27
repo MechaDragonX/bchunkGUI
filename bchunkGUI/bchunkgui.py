@@ -1,35 +1,31 @@
 import os
 import subprocess
 import dearpygui.dearpygui as dpg
-import tkinter as tk
-from tkinter import filedialog
+import crossfiledialog as cfd
+
 
 bin_path = ''
 cue_path = ''
+
 
 '''
 filetypes:
 0: bin
 1: cue
 '''
-def tkinter_file_dialog(filetype):
+def file_dialog(filetype):
     path = '[Not Selected]'
 
-    root = tk.Tk()
-    root.withdraw()
-
-    selected = False
     if filetype == 0:
-        selected = filedialog.askopenfilename(
+        selected = cfd.open_file(
             title='Select ".bin" file',
-            filetypes = [('".bin" file', '*.bin')]
+            filter = {'".bin" file': '*.bin'}
         )
     else:
-        selected = filedialog.askopenfilename(
-        title='Select ".cue" file',
-        filetypes = [('".cue" file', '*.cue')]
+        selected = cfd.open_file(
+            title='Select ".cue" file',
+            filter = {'".cue" file': '*.cue'}
         )
-    root.destroy()
 
     if selected:
         path = selected
@@ -46,13 +42,13 @@ dpg.create_context()
 
 def bin_dialog():
     global bin_path
-    bin_path = tkinter_file_dialog(filetype=0)
+    bin_path = file_dialog(filetype=0)
     dpg.set_value('bin_label', f'bin: {os.path.basename(bin_path)}')
 
 
 def cue_dialog():
     global cue_path
-    cue_path = tkinter_file_dialog(filetype=1)
+    cue_path = file_dialog(filetype=1)
     dpg.set_value('cue_label', f'cue: {os.path.basename(cue_path)}')
 
 
