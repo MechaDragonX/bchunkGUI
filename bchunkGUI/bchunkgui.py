@@ -33,8 +33,23 @@ def file_dialog(filetype):
     return path
 
 
-def run_bchunk(sender, app_data):
-    pass
+def run_bchunk():
+    if not bin_path or not cue_path:
+        dpg.set_value('progress_label', 'Failure!')
+        return
+
+    dpg.set_value('progress_label', 'Converting. . .')
+    out_prefix = bin_path[:-4]
+
+    result = None
+    try:
+        result = subprocess.run(['bchunk.exe', bin_path, cue_path, out_prefix], capture_output=True, text=True)
+        if result.returncode == 0:
+            dpg.set_value('progress_value', 'Success!')
+        else:
+            dpg.set_value('progress_label', f'Failure (code {result.returncode})')
+    except Exception as error:
+        dpg.set_value('progress_label', f'Error: {error}')
 
 
 dpg.create_context()
