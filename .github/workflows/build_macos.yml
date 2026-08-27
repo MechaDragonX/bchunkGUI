@@ -33,7 +33,7 @@ jobs:
 
     - name: Build macOS executable with PyInstaller
       run: |
-        pyinstaller --onefile --noconsole bchunkgui.py
+        pyinstaller --onefile --noconsole --target-arch universal2 bchunkgui.py
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
