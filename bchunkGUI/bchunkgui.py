@@ -151,7 +151,8 @@ with dpg.window(tag='primary'):
 
     dpg.add_button(label='Select output folder', callback=output_dialog_callback)
     with dpg.group(tag='outfile_input_group'):
-        dpg.add_input_text(label='Output filename WITHOUT ".ISO"', tag='outfile_input')
+        dpg.add_text('Please type an output filename WITHOUT ".ISO"')
+        dpg.add_input_text(tag='outfile_input')
     dpg.add_text('Output filename: [Not Set]', tag='outfile_label')
 
     dpg.add_button(label='Convert to ".iso" file', callback=run_bchunk)
