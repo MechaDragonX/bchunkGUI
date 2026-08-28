@@ -96,16 +96,16 @@ def file_dialog_handler(filetype):
         global bin_path
         bin_path = get_path_with_dialog(filetype=0)
         output_dir = f'{os.path.dirname(bin_path)}/'
-        dpg.set_value('bin_label', f'bin: {os.path.basename(bin_path)}')
+        dpg.set_value('bin_label', f'".bin" file: {os.path.basename(bin_path)}')
         output_name = os.path.basename(bin_path)[:-4]
     else:
         global cue_path
         cue_path = get_path_with_dialog(filetype=1)
-        dpg.set_value('cue_label', f'cue: {os.path.basename(cue_path)}')
+        dpg.set_value('cue_label', f'".cue" file: {os.path.basename(cue_path)}')
         output_name = os.path.basename(cue_path)[:-4]
 
     dpg.delete_item(outfile_tag)
-    dpg.add_input_text(label=outfile_input_label, tag=outfile_tag, hint=output_name, parent=outfile_input_group)
+    dpg.add_input_text(tag=outfile_tag, hint=output_name, parent=outfile_input_group)
     dpg.set_value('outfile_label', f'Output filename: {output_name}')
     
 
@@ -114,7 +114,7 @@ def bin_dialog_handler():
     # global output_dir
     # global output_name
     # bin_path = file_dialog(filetype=0)
-    # dpg.set_value('bin_label', f'bin: {os.path.basename(bin_path)}')
+    # dpg.set_value('bin_label', f'".bin" file{os.path.basename(bin_path)}')
     # output_dir = f'{os.path.dirname(bin_path)}/'
     # dpg.delete_item(outfile_tag)
     # output_name = os.path.basename(bin_path)[:-4]
@@ -127,7 +127,7 @@ def cue_dialog_handler():
     # global output_dir
     # global output_name
     # cue_path = file_dialog(filetype=1)
-    # dpg.set_value('cue_label', f'cue: {os.path.basename(cue_path)}')
+    # dpg.set_value('cue_label', f'".cue" file{os.path.basename(cue_path)}')
     # output_dir = f'{os.path.dirname(cue_path)}/'
     # dpg.delete_item(outfile_tag)
     # output_name = os.path.basename(cue_path)[:-4]
@@ -144,10 +144,10 @@ def output_dialog_callback():
 
 with dpg.window(tag='primary'):
     dpg.add_button(label='Open ".bin" file', callback=bin_dialog_handler)
-    dpg.add_text('bin: [Not Selected]', tag='bin_label')
+    dpg.add_text('".bin" file: [Not Selected]', tag='bin_label')
 
     dpg.add_button(label='Open ".cue" file', callback=cue_dialog_handler)
-    dpg.add_text('cue: [Not Selected]', tag='cue_label')
+    dpg.add_text('".cue" file: [Not Selected]', tag='cue_label')
 
     dpg.add_button(label='Select output folder', callback=output_dialog_callback)
     with dpg.group(tag='outfile_input_group'):
