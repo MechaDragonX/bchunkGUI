@@ -63,7 +63,7 @@ def run_bchunk():
         return
 
     dpg.set_value('progress_label', 'Converting. . .')
-    out_prefix = os.path.splitext(os.path.basename(cue_path))[0]
+    out_prefix = f'{output_dir}{output_name}'
 
     cmd = None
     exe = ''
